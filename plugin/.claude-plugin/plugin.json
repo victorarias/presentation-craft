@@ -1,0 +1,8 @@
+{
+  "name": "presentation-craft",
+  "version": "0.1.0",
+  "description": "Adds the /presentation-craft skill for designing and building live interactive HTML decks and local HyperFrames explainer videos with selectable visual styles",
+  "author": { "name": "Victor Arias" },
+  "license": "MIT",
+  "keywords": ["presentations", "slides", "html", "hyperframes", "video", "design"]
+}

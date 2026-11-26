@@ -1,0 +1,269 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #04080f;
+      color: #eef4f9;
+      font-family: "Inter", sans-serif;
+      overflow: hidden;
+    }
+    #s2-canvas { position: absolute; inset: 0; z-index: 0; }
+
+    /* Full-screen typographic intertitle (no slide header chrome) */
+    .s2-inter {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 180px;
+    }
+    .s2-inter h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: 80px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+    .s2-accent { color: #22d3ee; }
+
+    /* Main visual stage */
+    .s2-stage {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      padding: 96px 128px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 44px;
+    }
+    .s2-grid {
+      display: grid;
+      grid-template-columns: 640px 280px 1fr;
+      gap: 64px;
+      align-items: center;
+      height: 460px;
+    }
+    .s2-stack {
+      position: relative;
+      height: 400px;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+    .s2-slot { position: absolute; inset: 0; }
+    .s2-panel {
+      height: 400px;
+      border-radius: 22px;
+      border: 1.5px solid;
+      background: #08101a;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .s2-before { border-color: rgba(240, 160, 122, 0.7); }
+    .s2-after { border-color: #22d3ee; box-shadow: 0 0 42px rgba(34, 211, 238, 0.2); }
+    .s2-bar {
+      padding: 14px 24px;
+      font-family: "Outfit", sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .s2-bar-b { background: rgba(58, 28, 18, 0.72); color: #ff9f76; }
+    .s2-bar-a { background: rgba(12, 42, 56, 0.8); color: #22d3ee; }
+    .s2-code {
+      padding: 26px 28px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 17px;
+      line-height: 1.65;
+      color: #d8e3ec;
+      white-space: pre;
+    }
+    #s2-beam {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 48px;
+      background: linear-gradient(90deg, rgba(34,211,238,0) 0%, rgba(34,211,238,0.35) 38%, rgba(224,251,255,0.95) 50%, rgba(34,211,238,0.35) 62%, rgba(34,211,238,0) 100%);
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0;
+    }
+    .s2-core {
+      border-radius: 24px;
+      padding: 34px 24px;
+      background: linear-gradient(145deg, rgba(14, 46, 62, 0.95), rgba(12, 30, 44, 0.95));
+      border: 2px solid #22d3ee;
+      text-align: center;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .s2-out {
+      border-radius: 20px;
+      padding: 28px 30px;
+      background: rgba(14, 52, 31, 0.92);
+      border: 1.5px solid #10b981;
+      font-family: "Outfit", sans-serif;
+      font-size: 30px;
+      font-weight: 700;
+    }
+    .s2-whisper {
+      text-align: center;
+      font-family: "Outfit", sans-serif;
+      font-size: 32px;
+      color: #9cb2c5;
+      white-space: nowrap;
+    }
+    .s2-whisper strong { color: #ffffff; }
+  </style>
+
+  <div id="root" data-composition-id="scene-2-transform" data-width="1920" data-height="1080">
+    <canvas id="s2-canvas" width="1920" height="1080" data-layout-ignore="true"></canvas>
+
+    <div id="s2-inter-clip" class="clip s2-inter" data-start="0" data-duration="2.2">
+      <div id="s2-inter-inner">
+        <h1>Transform the rules in place<br>into <span class="s2-accent">declarative data.</span></h1>
+      </div>
+    </div>
+
+    <div id="s2-stage-clip" class="clip" data-start="2.15" data-duration="9.8">
+      <div class="s2-stage">
+        <div class="s2-grid">
+          <div class="s2-stack">
+            <div id="s2-b-clip" class="clip s2-slot" data-start="2.2" data-duration="3.8" data-layout-ignore="true">
+              <div id="s2-b" class="s2-panel s2-before">
+                <div class="s2-bar s2-bar-b"><span>Imperative Logic</span><span>Before</span></div>
+                <div class="s2-code">if (!ACCEPTED.includes(type)) {
+  throw new Error("Unsupported");
+}
+if (file.size &gt; MAX_BYTES) {
+  errors.push("LIMIT_EXCEEDED");
+}</div>
+              </div>
+            </div>
+            <div id="s2-a-clip" class="clip s2-slot" data-start="4.5" data-duration="7.4">
+              <div id="s2-a" class="s2-panel s2-after">
+                <div class="s2-bar s2-bar-a"><span>Declarative Rules</span><span>After</span></div>
+                <div class="s2-code">ACCEPTED_TYPES = ["audio", "ebook"];
+
+LIMITS = {
+  maxBytes: 4_000_000_000,
+  checksum: "sha256"
+};</div>
+              </div>
+            </div>
+            <div id="s2-beam" data-layout-ignore="true"></div>
+          </div>
+
+          <div id="s2-core-clip" class="clip" data-start="5.9" data-duration="6.0">
+            <div id="s2-core" class="s2-core">spec.json</div>
+          </div>
+
+          <div id="s2-out-clip" class="clip" data-start="6.9" data-duration="5.0">
+            <div id="s2-out" class="s2-out">Generated SDK &amp; Docs</div>
+          </div>
+        </div>
+
+        <div id="s2-whisper-clip" class="clip" data-start="7.8" data-duration="4.1">
+          <div id="s2-whisper" class="s2-whisper">
+            <strong>One source of truth.</strong> Every consumer stays in sync.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const rootEl = document.getElementById("root");
+    const canvas = document.getElementById("s2-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function rectOf(id, rr) {
+      const el = document.getElementById(id);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      if (r.width <= 0 || r.height <= 0) return null;
+      return {
+        left: r.left - rr.left,
+        right: r.right - rr.left,
+        cy: (r.top + r.bottom) / 2 - rr.top,
+      };
+    }
+
+    function drawBeam(x1, y1, x2, y2, color, prog, t) {
+      if (prog <= 0) return;
+      const mx = (x1 + x2) / 2;
+      ctx.save();
+      ctx.strokeStyle = color;
+      ctx.globalAlpha = 0.78 * prog;
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.bezierCurveTo(mx, y1, mx, y2, x2, y2);
+      ctx.stroke();
+
+      const u = ((t * 0.75) % 1) * prog;
+      const inv = 1 - u;
+      const px = inv*inv*inv*x1 + 3*inv*inv*u*mx + 3*inv*u*u*mx + u*u*u*x2;
+      const py = inv*inv*inv*y1 + 3*inv*inv*u*y1 + 3*inv*u*u*y2 + u*u*u*y2;
+      ctx.fillStyle = "#ffffff";
+      ctx.globalAlpha = 0.95 * prog;
+      ctx.beginPath();
+      ctx.arc(px, py, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, 1920, 1080);
+      const rr = rootEl.getBoundingClientRect();
+      const after = rectOf("s2-a", rr);
+      const core = rectOf("s2-core", rr);
+      const out = rectOf("s2-out", rr);
+
+      if (after && core && t >= 5.9) {
+        drawBeam(after.right, after.cy, core.left, core.cy, "#22d3ee", Math.min(1, (t - 5.9) / 0.65), t);
+      }
+      if (core && out && t >= 6.9) {
+        drawBeam(core.right, core.cy, out.left, out.cy, "#10b981", Math.min(1, (t - 6.9) / 0.65), t);
+      }
+    }
+
+    const clock = { t: 0 };
+    const tl = gsap.timeline({ paused: true, onUpdate: () => draw(clock.t) });
+    tl.to(clock, { t: 12.0, duration: 12.0, ease: "none" }, 0);
+
+    tl.fromTo("#s2-inter-inner", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" }, 0.1);
+    tl.to("#s2-inter-inner", { opacity: 0, y: -10, duration: 0.45, ease: "power2.inOut" }, 1.65);
+
+    // Box-clipped scanline wipe
+    tl.fromTo("#s2-b", { opacity: 0, y: 16, clipPath: "inset(0 0 0 0%)" }, { opacity: 1, y: 0, duration: 0.65, ease: "expo.out" }, 2.25);
+    tl.to("#s2-b", { clipPath: "inset(0 0 0 100%)", duration: 1.0, ease: "power2.inOut" }, 4.55);
+    tl.set("#s2-a", { clipPath: "inset(0 100% 0 0)" }, 4.5);
+    tl.to("#s2-a", { clipPath: "inset(0 0% 0 0)", duration: 1.0, ease: "power2.inOut" }, 4.55);
+    tl.fromTo("#s2-beam", { x: -24, opacity: 0 }, { opacity: 1, duration: 0.16 }, 4.53);
+    tl.to("#s2-beam", { x: 616, duration: 1.0, ease: "power2.inOut" }, 4.55);
+    tl.to("#s2-beam", { opacity: 0, duration: 0.18 }, 5.45);
+    tl.to("#s2-b", { opacity: 0, duration: 0.08 }, 5.6);
+
+    tl.fromTo("#s2-core", { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 5.95);
+    tl.fromTo("#s2-out", { opacity: 0, x: 18 }, { opacity: 1, x: 0, duration: 0.65, ease: "expo.out" }, 6.95);
+    tl.fromTo("#s2-whisper", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.65, ease: "power3.out" }, 7.9);
+    tl.to("#root", { opacity: 0, duration: 0.45, ease: "power2.inOut" }, 11.45);
+
+    window.__timelines["scene-2-transform"] = tl;
+    tl.seek(0);
+  </script>
+</template>

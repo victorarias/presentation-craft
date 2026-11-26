@@ -1,0 +1,14 @@
+{
+  "name": "presentation-craft",
+  "owner": {
+    "name": "Victor Arias"
+  },
+  "description": "presentation-craft: a Claude Code plugin for striking live HTML presentations and HyperFrames explainer videos",
+  "plugins": [
+    {
+      "name": "presentation-craft",
+      "source": "./plugin",
+      "description": "Design and build live interactive HTML decks and local HyperFrames explainer videos with selectable visual styles"
+    }
+  ]
+}

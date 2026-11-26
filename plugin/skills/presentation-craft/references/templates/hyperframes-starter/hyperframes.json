@@ -1,0 +1,11 @@
+{
+  "fps": 30,
+  "width": 1920,
+  "height": 1080,
+  "entry": "index.html",
+  "fonts": [
+    { "family": "Outfit", "weights": [500, 600, 700] },
+    { "family": "Inter", "weights": [400, 500, 600, 700] },
+    { "family": "JetBrains Mono", "weights": [400, 500, 600, 700] }
+  ]
+}

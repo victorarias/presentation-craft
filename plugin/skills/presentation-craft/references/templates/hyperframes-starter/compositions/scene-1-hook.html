@@ -1,0 +1,124 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      color: #0f172a;
+      font-family: "Inter", sans-serif;
+      overflow: hidden;
+    }
+    .s1-wrap {
+      position: absolute;
+      inset: 0;
+      padding: 132px 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 56px;
+    }
+    .s1-headline {
+      font-family: "Outfit", sans-serif;
+      font-size: 58px;
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+    }
+    .s1-muted { color: #64748b; font-weight: 500; }
+    .s1-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 20px;
+    }
+    .s1-step {
+      flex: 1;
+      min-height: 196px;
+      background: #f8fafc;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 16px;
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+    .s1-step h3 { font-size: 24px; font-weight: 600; color: #0f172a; }
+    .s1-step p { font-size: 18px; color: #64748b; line-height: 1.4; }
+    .s1-step-warn { background: #fef2f2; border-color: #fca5a5; }
+    .s1-step-warn h3 { color: #b91c1c; }
+    .s1-step-warn p { color: #991b1b; }
+    .s1-arrow { display: flex; align-items: center; font-size: 30px; color: #94a3b8; }
+    #s1-fx { position: absolute; inset: 0; z-index: 20; pointer-events: none; }
+  </style>
+
+  <div id="root" data-composition-id="scene-1-hook" data-width="1920" data-height="1080">
+    <div id="s1-clip" class="clip" data-start="0" data-duration="10.0">
+      <div id="s1-inner" class="s1-wrap">
+        <div class="s1-headline">
+          Start with the familiar workflow,
+          <span class="s1-muted">and show where the loop slows down.</span>
+        </div>
+        <div class="s1-flow">
+          <div id="s1-b1" class="s1-step">
+            <h3>1. Build by hand</h3>
+            <p>Easy to miss a subtle rule in the spec.</p>
+          </div>
+          <span class="s1-arrow">→</span>
+          <div id="s1-b2" class="s1-step">
+            <h3>2. Upload &amp; wait</h3>
+            <p>Wait for a remote pipeline or manual review.</p>
+          </div>
+          <span class="s1-arrow">→</span>
+          <div id="s1-b3" class="s1-step s1-step-warn">
+            <h3>3. Fix &amp; repeat</h3>
+            <p>Slow cycles before anything ships cleanly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas id="s1-fx" width="1920" height="1080" data-layout-ignore="true"></canvas>
+  </div>
+
+  <script>
+    window.__timelines = window.__timelines || {};
+    const canvas = document.getElementById("s1-fx");
+    const ctx = canvas.getContext("2d");
+
+    function drawPivot(p) {
+      ctx.clearRect(0, 0, 1920, 1080);
+      if (p <= 0) return;
+      const dark = Math.min(1, Math.max(0, (p - 0.14) / 0.86));
+      ctx.fillStyle = `rgba(4, 8, 15, ${dark * 0.99})`;
+      ctx.fillRect(0, 0, 1920, 1080);
+
+      const y = 540;
+      const beamW = Math.min(1, p / 0.42) * 1920;
+      const x0 = (1920 - beamW) / 2;
+      const glow = 1 - Math.max(0, (p - 0.65) / 0.35);
+
+      const grad = ctx.createLinearGradient(x0, y, x0 + beamW, y);
+      grad.addColorStop(0, "rgba(34, 211, 238, 0)");
+      grad.addColorStop(0.25, `rgba(34, 211, 238, ${0.95 * glow})`);
+      grad.addColorStop(0.5, `rgba(255, 255, 255, ${glow})`);
+      grad.addColorStop(0.75, `rgba(16, 185, 129, ${0.95 * glow})`);
+      grad.addColorStop(1, "rgba(16, 185, 129, 0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(x0, y - 4, beamW, 8);
+    }
+
+    const state = { pivot: 0 };
+    const tl = gsap.timeline({ paused: true, onUpdate: () => drawPivot(state.pivot) });
+
+    tl.fromTo("#s1-inner", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.65, ease: "expo.out" }, 0.05);
+    tl.fromTo("#s1-b1", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.35);
+    tl.fromTo("#s1-b2", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.85);
+    tl.fromTo("#s1-b3", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 1.35);
+
+    // Pivot sweep synced with music bloom
+    tl.to("#s1-inner", { scale: 1.03, duration: 0.85, ease: "power2.in" }, 9.0);
+    tl.to(state, { pivot: 1, duration: 0.9, ease: "power2.inOut" }, 9.04);
+
+    window.__timelines["scene-1-hook"] = tl;
+    tl.seek(0);
+  </script>
+</template>
